@@ -19,6 +19,7 @@ def check_intersections_occurences():
         mapping = list(map((lambda x: {'s': (x, street_occurences[x])} if street_occurences[x] != 0 else None), intersection['in']))
         mapping = list(filter((lambda x: x is not None), mapping))
         mapping = sorted(mapping, key=lambda x: x['s'][1], reverse=True)
+        mapping = sorted(mapping, key=lambda x: street_firstness[x['s'][0]])
         if len(mapping):
             global count 
             count += 1
@@ -26,6 +27,7 @@ def check_intersections_occurences():
             result.append(len(mapping))
             for d in mapping:
                 result.append(d['s'][0] + ' ' + str(d['s'][1]))
+
 
 with open(in_file, "r") as f:
     first_line = f.readline()
@@ -46,8 +48,10 @@ with open(in_file, "r") as f:
     for i in range(num_cars):
         car_line = f.readline()
         car_route = car_line.split()[1:]
+        total_street_cost = 0
         for idx, route_street in enumerate(car_route):
-            street_firstness[route_street] += idx
+            total_street_cost += streets[route_street]["cost"]
+            street_firstness[route_street] += idx * total_street_cost
         car_routes.append(car_route)
 
 #print("duration: {}. num_intersections: {}, num_streets: {}, num_cars: {}, bonus_points: {} "
