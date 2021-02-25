@@ -5,10 +5,17 @@ in_file = "inputs/a.txt"
 streets = {}
 car_routes = []
 
+street_occurences = {}
+result = []
+
 def count_street_occurences():
     flat_list = [item for sublist in car_routes for item in sublist]
     return Counter(flat_list)
     
+def check_intersections_occurences():
+    for intersection in intersections:
+        len = map((lambda x: {x: street_occurences[x]}), intersection['in'])
+        print(list(len))
 
 with open(in_file, "r") as f:
     first_line = f.readline()
@@ -26,5 +33,5 @@ print("duration: {}. num_intersections: {}, num_streets: {}, num_cars: {}, bonus
 print("streets: {}".format(streets))
 print("car routes: {}".format(car_routes))
 print(count_street_occurences())
-
-
+street_occurences = count_street_occurences()
+check_intersections_occurences()
