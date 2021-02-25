@@ -15,16 +15,16 @@ def count_street_occurences():
 
 def check_intersections_occurences():
     for i, intersection in enumerate(intersections):
-        mapping = list(map((lambda x: {x: street_occurences[x]} if street_occurences[x] != 0 else None), intersection['in']))
+        mapping = list(map((lambda x: {'s': (x, street_occurences[x])} if street_occurences[x] != 0 else None), intersection['in']))
         mapping = list(filter((lambda x: x is not None), mapping))
+        mapping = sorted(mapping, key=lambda x: x['s'][1], reverse=True)
         if len(mapping):
             global count 
             count += 1
             result.append(i)
             result.append(len(mapping))
             for d in mapping:
-                for key in d:
-                    result.append(key + ' ' + str(d[key]))
+                result.append(d['s'][0] + ' ' + str(d['s'][1]))
 
 with open(in_file, "r") as f:
     first_line = f.readline()
