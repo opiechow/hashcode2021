@@ -1,26 +1,30 @@
 from collections import Counter
 
-in_file = "inputs/a.txt"
+in_file = "inputs/f.txt"
 
 streets = {}
 car_routes = []
 intersections = []
 street_occurences = {}
 result = []
+count = 0
 
 def count_street_occurences():
     flat_list = [item for sublist in car_routes for item in sublist]
     return Counter(flat_list)
-    
+
 def check_intersections_occurences():
-    
     for i, intersection in enumerate(intersections):
-        mapping = map((lambda x: {x: street_occurences[x]}), intersection['in'])
-        print(i)
-        print(len(intersection['in']))
-        for d in mapping:
-            for key in d:
-                print(key + ' ' + str(d[key]))
+        mapping = list(map((lambda x: {x: street_occurences[x]} if street_occurences[x] != 0 else None), intersection['in']))
+        mapping = list(filter((lambda x: x is not None), mapping))
+        if len(mapping):
+            global count 
+            count += 1
+            result.append(i)
+            result.append(len(mapping))
+            for d in mapping:
+                for key in d:
+                    result.append(key + ' ' + str(d[key]))
 
 with open(in_file, "r") as f:
     first_line = f.readline()
@@ -48,7 +52,9 @@ with open(in_file, "r") as f:
 #for i in range(len(intersections)):
     #print("intersections[{}]: {}".format(i, intersections[i]))
 #print(count_street_occurences())
-print(len(intersections))
+
 street_occurences = count_street_occurences()
 check_intersections_occurences()
-
+print(count)
+for el in result:
+    print(el)
