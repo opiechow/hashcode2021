@@ -1,7 +1,14 @@
+from collections import Counter
+
 in_file = "inputs/a.txt"
 
 streets = {}
 car_routes = []
+
+def count_street_occurences():
+    flat_list = [item for sublist in car_routes for item in sublist]
+    return Counter(flat_list)
+    
 
 with open(in_file, "r") as f:
     first_line = f.readline()
@@ -18,6 +25,6 @@ print("duration: {}. num_intersections: {}, num_streets: {}, num_cars: {}, bonus
       .format(duration, num_intersections, num_streets, num_cars, bonus_points))
 print("streets: {}".format(streets))
 print("car routes: {}".format(car_routes))
-
+print(count_street_occurences())
 
 
