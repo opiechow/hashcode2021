@@ -13,9 +13,14 @@ def count_street_occurences():
     return Counter(flat_list)
     
 def check_intersections_occurences():
-    for intersection in intersections:
-        len = map((lambda x: {x: street_occurences[x]}), intersection['in'])
-        print(list(len))
+    
+    for i, intersection in enumerate(intersections):
+        mapping = map((lambda x: {x: street_occurences[x]}), intersection['in'])
+        print(i)
+        print(len(intersection['in']))
+        for d in mapping:
+            for key in d:
+                print(key + ' ' + str(d[key]))
 
 with open(in_file, "r") as f:
     first_line = f.readline()
@@ -36,12 +41,14 @@ with open(in_file, "r") as f:
         car_line = f.readline()
         car_routes.append(car_line.split()[1:])
 
-print("duration: {}. num_intersections: {}, num_streets: {}, num_cars: {}, bonus_points: {} "
-      .format(duration, num_intersections, num_streets, num_cars, bonus_points))
-print("streets: {}".format(streets))
-print("car routes: {}".format(car_routes))
-for i in range(len(intersections)):
-    print("intersections[{}]: {}".format(i, intersections[i]))
-print(count_street_occurences())
+#print("duration: {}. num_intersections: {}, num_streets: {}, num_cars: {}, bonus_points: {} "
+#      .format(duration, num_intersections, num_streets, num_cars, bonus_points))
+#print("streets: {}".format(streets))
+#print("car routes: {}".format(car_routes))
+#for i in range(len(intersections)):
+    #print("intersections[{}]: {}".format(i, intersections[i]))
+#print(count_street_occurences())
+print(len(intersections))
 street_occurences = count_street_occurences()
 check_intersections_occurences()
+
