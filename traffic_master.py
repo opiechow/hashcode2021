@@ -6,6 +6,7 @@ streets = {}
 car_routes = []
 intersections = []
 street_occurences = {}
+street_firstness = {}
 result = []
 count = 0
 
@@ -41,9 +42,13 @@ with open(in_file, "r") as f:
         streets[street_name] = {"beg": street_beg, "end": street_end, "cost": street_cost}
         intersections[street_beg]["out"].append(street_name)
         intersections[street_end]["in"].append(street_name)
+        street_firstness[street_name] = 0
     for i in range(num_cars):
         car_line = f.readline()
-        car_routes.append(car_line.split()[1:])
+        car_route = car_line.split()[1:]
+        for idx, route_street in enumerate(car_route):
+            street_firstness[route_street] += idx
+        car_routes.append(car_route)
 
 #print("duration: {}. num_intersections: {}, num_streets: {}, num_cars: {}, bonus_points: {} "
 #      .format(duration, num_intersections, num_streets, num_cars, bonus_points))
@@ -52,6 +57,7 @@ with open(in_file, "r") as f:
 #for i in range(len(intersections)):
     #print("intersections[{}]: {}".format(i, intersections[i]))
 #print(count_street_occurences())
+#print(street_firstness)
 
 street_occurences = count_street_occurences()
 check_intersections_occurences()
